@@ -106,29 +106,69 @@ function Check() {
                 possible_lemma = word.slice(0, -1);
             }
         }
-         else if (word.endsWith('er') && len(word, -3) == len(word, -4)) {
-            possible_lemma = word.slice(0, -3);
-        } else if (word.endsWith('est') && len(word, -4) == len(word, -5)) {
-            possible_lemma = word.slice(0,-4);
-        } else if (word.endsWith('ed') && len(word, -3) == "i") {
-            possible_lemma = word.slice(0,-3) + "y";
-        } else if (word.endsWith('ed') && len(word, -3) == len(word, -4)){
-            possible_lemma = word.slice(0, -3);
-        } else if (word.endsWith('ed') && !vowel.includes(len(word, -3)) && !vowel.includes(len(word, -4))) {
-            possible_lemma = word.slice(0, -2);
-        } else if (word.endsWith('ed') && !vowel.includes(len(word, -3)) && vowel.includes(len(word, -4))) {
-            possible_lemma = word.slice(0, -1);
-        } else if (word.endsWith('ing') && len(word, -4) == "y") {
-            possible_lemma = word.slice(0, -3);
-        } else if (word.endsWith('ing') && !vowel.includes(len(word, -4))) {
-            if (vowel.includes(len(word, -5))) {
-                possible_lemma = word.slice(0,-3) + "e";
-            } else if (len(word, -5) == len(word, -4)) {
-                possible_lemma = word.slice(0,-4);
+         else if (word.endsWith('er')) {
+            if (len(word, -3) == len(word, -4)) {
+                possible_lemma = word.slice(0, -3);
+            } else if (len(word, -3) == "i") {
+                possible_lemma = word.slice(0, -3) + "y";
+            } else if (len(word, -3) == "u") {
+                possible_lemma = word.slice(0, -1);
+            } else if (!vowel.includes(len(word, -3)) && vowel.includes(len(word, -4))) {
+                possible_lemma = word.slice(0, -1);
             }
-        } else if (word.endsWith('ing') && vowel.includes(len(word, -4)) && len(word, -4) == len(word, -5)) {
-            possible_lemma = word.slice(0,-3);
-        } else { possible_lemma = word;}
+        } else if (word.endsWith('est')) {
+                if (len(word, -4) == len(word, -5)) {
+                    possible_lemma = word.slice(0,-4);
+                } else if (len(word, -4) == "i") {
+                    possible_lemma = word.slice(0,-4) + "y";
+                } else if (len(word, -4) == "u") {
+                    possible_lemma = word.slice(0,-3);
+                } else if (!vowel.includes(len(word, -4)) && !vowel.includes(len(word, -5))) {
+                    possible_lemma = word.slice(0, -3);
+                }
+        } 
+         else if (word.endsWith('ed')) {
+                if (word == "red" || word == "led" || word == "bed" || word == "dead" || word == "shed" || word == "need" || word == "needed" || word == "weed") {
+                    possible_lemma = word;
+                } else if (len(word, -3) == "i") {
+                    possible_lemma = word.slice(0,-3) + "y";
+                } else if (len(word, -3) == "e") {
+                    possible_lemma = word.slice(0,-2);
+                } else if (len(word, -3) == len(word, -4)) {
+                    possible_lemma = word.slice(0, -3);
+                } else if (!vowel.includes(len(word, -3)) && !vowel.includes(len(word, -4))) {
+                    possible_lemma = word.slice(0, -2);
+                } else if (!vowel.includes(len(word, -3)) && vowel.includes(len(word, -4))) {
+                    possible_lemma = word.slice(0, -1);
+                }
+        }     
+         else if (word.endsWith('ing')) {
+                if (word == "ring" || word == "king" || word == "sing" || word == "thing" || word == "wing" || word == "sling" || word == "swing" || word == "bring" || word == "spring" || word == "evening" || word == "string" || word == "during" || word == "ceiling") {
+                    possible_lemma = word;
+                } else if (word == "dying" || word == "lying" || word == "eying") {
+                    possible_lemma = word.slice(0, -4) + "e";
+                } else if (len(word, -4) == "y") {
+                    possible_lemma = word.slice(0, -3);
+                } else if (!vowel.includes(len(word, -4))) {
+                    if (word == "mixing" || word == "waxing") {
+                        possible_lemma = word.slice(0, -3);
+                    } else if (vowel.includes(len(word, -5) && vowel.includes(len(word, -6)))) {
+                        possible_lemma = word.slice(0, -3);
+                    } else if (vowel.includes(len(word, -5))) {
+                        possible_lemma = word.slice(0,-3) + "e";
+                    } else if (len(word, -5) == "ll" || len(word, -5) == "rr") {
+                        possible_lemma = word.slice(0, -3);
+                    } else if (len(word, -5) == len(word, -4)) {
+                        possible_lemma = word.slice(0,-4);
+                    } else if (!vowel.includes(len(word, -5))) {
+                        possible_lemma = word.slice(0, -3);
+                    }
+                }
+                 else if (vowel.includes(len(word, -4)) && len(word, -4) == len(word, -5)) {
+                    possible_lemma = word.slice(0,-3);
+                }
+        }
+        else { possible_lemma = word;}
 
         if (!diff_words.includes(possible_lemma)){
             diff_words.push(possible_lemma);
