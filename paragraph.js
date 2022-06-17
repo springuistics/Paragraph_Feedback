@@ -204,7 +204,10 @@ function Check() {
                 possible_lemma = word.slice(0, -1);
             }
         } else if (word.endsWith('est')) {
-                if (len(word, -4) == len(word, -5)) {
+                const estwords = ["attest", "honest", "forest", "invest", "arrest", "digest", "guest", "quest", "chest", "suggest", "protest", "request", "harvest", "contest", "ernest", "congest", "unrest", "retest", "interest", "manifest", "conquest", "dishonest", "disinterest"];
+                if (word.length == 4 || estwords.indexOf(word) !== -1) {
+                    possible_lemma = word;
+                } else if (len(word, -4) == len(word, -5)) {
                     possible_lemma = word.slice(0,-4);
                 } else if (len(word, -4) == "i") {
                     possible_lemma = word.slice(0,-4) + "y";
