@@ -286,16 +286,16 @@ function Check() {
     var barColors = ["red", "blue", "green"];
     var xBars = ["Minimum Acceptable Length", "Your Text Length", "Good Length"];
     var yBars = [50, n_words, 100];
-    new Chart("myLength", {type: "bar", data: {labels: xBars, datasets: [{backgroundColor: barColors, data: yBars, minBarLength: 20, label: 'Number of Words:'}]},options: {title: {display: true, text: "Length of Your Paragraph Versus Benchmarks"}}});
+    new Chart("myLength", {type: "bar", data: {labels: xBars, datasets: [{backgroundColor: barColors, data: yBars, minBarLength: 20, label: 'Number of Words:'}]},options: {scales: {yAxes: [{ticks: {beginAtZero: true}}]}, title: {display: true, text: "Length of Your Paragraph Versus Benchmarks"}}});
     var xVar = ["Minimum Variety Score", "Your Variety", "Good Variety Score"];
     var yVar = [3.5, cttr, 4.5];
-    new Chart("myVariety", {type: "bar", data: {labels: xVar, datasets: [{backgroundColor: barColors, data: yVar, minBarLength: 20, label: 'Vocabulary Variety Score:'}]},options: {title: {display: true, text: "Amount of Your Vocabulary Variety Versus Benchmarks"}}});
+    new Chart("myVariety", {type: "bar", data: {labels: xVar, datasets: [{backgroundColor: barColors, data: yVar, minBarLength: 20, label: 'Vocabulary Variety Score:'}]},options: {scales: {yAxes: [{ticks: {beginAtZero: true}}]}, title: {display: true, text: "Amount of Your Vocabulary Variety Versus Benchmarks"}}});
     var xSent = ["Minimum Sentence Score", "Your Sentence Score", "Good Sentence Score"];
     var ySent = [10, mls, 18];
-    new Chart("mySentence", {type: "bar", data: {labels: xSent, datasets: [{backgroundColor: barColors, data: ySent, minBarLength: 20, label: 'Sentence Length Score:'}]},options: {title: {display: true, text: "Average Length of Your Sentences Versus Benchmarks"}}});
+    new Chart("mySentence", {type: "bar", data: {labels: xSent, datasets: [{backgroundColor: barColors, data: ySent, minBarLength: 20, label: 'Sentence Length Score:'}]},options: {scales: {yAxes: [{ticks: {beginAtZero: true}}]}, title: {display: true, text: "Average Length of Your Sentences Versus Benchmarks"}}});
     var xarg = ["Minimum Argument Score", "Your Argument Score", "Good Argument Score"];
     var yarg = [1, argD, 2];
-    new Chart("myArg", {type: "bar", data: {labels: xarg, datasets: [{backgroundColor: barColors, data: yarg, minBarLength: 20, label: 'Argumentative Words and Phrases Score:'}]},options: {title: {display: true, text: "Argumentative Words and Phrases Score Versus Benchmarks"}}});
+    new Chart("myArg", {type: "bar", data: {labels: xarg, datasets: [{backgroundColor: barColors, data: yarg, minBarLength: 20, label: 'Argumentative Words and Phrases Score:'}]},options: {scales: {yAxes: [{ticks: {beginAtZero: true}}]}, title: {display: true, text: "Argumentative Words and Phrases Score Versus Benchmarks"}}});
 
     //display advice
     final_results = "You wrote " + n_words + " words, " + ndw + " different words, and used " + arg_cnt + " argumentative words like those listed in Tale 1 of Chapter 11. Your variety score is: " + cttr + " , and your average sentence length is: " + mls + " words per sentence";
