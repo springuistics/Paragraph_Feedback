@@ -3,6 +3,13 @@ const SW4 = ["at the same time", "it turns out that", "for the purpose of", "on 
 const SW3 = ["wide range of","with respect to","to distinguish between","as explained by","this means that","it follows that","also known as","the difference between","on account of","in order to","the reason for","the reason why","in this respect","in spite of", "so as to", "factors of this", "a number of", "matter of fact", "in other words", "in respect to"];
 const SW2 = ["in addition", "caused by", "for one", "in addition", "for instance", "for example", "regarded as", "seeing that", "leads to", "lead to", "leading to", "divided into", "fall into", "falls into", "falling into", "considered as", "this implies", "this suggests", "brings about", "bring about", "brought about", "bringing about", "due to", "based on", "so that", "such as", "into account", "points to", "point to", "pointing to", "pointed to", "points out", "point out", "pointing out", "pointed out", "refers to", "refer to", "regarded as"];
 const SW1 = ["including", "include", "includes", "contrary", "illustrate", "illustrates", "exemplifies", "exemplify", "meaning", "misinterpret", "misinterprets", "misinterpreting", "because", "since", "therefore", "cause", "causes", "yield", "yields", "moreover", "futhermore", "however", "although", "nevertheless", "yet", "though", "either", "instead", "if", "without", "specifically", "additionally", "consequently"];
+irregular_verbs = [];
+fetch('./irregular_verbs.json')
+  .then((response) => {return response.json();})
+  .then((temp)=> {
+    irregular_verbs = temp;
+    return irregular_verbs;
+  });
 
 
 function Check() {
@@ -118,58 +125,19 @@ function Check() {
         const vowel = "aeiou";
         function len(word, x) {let a = word.charAt(word.length + x); return a}
         //lemmatize common irregular verbs
-        if (word == "be" || word == "is" || word == "are" || word == "am" || word == "was" || word == "were" || word == "being" || word == "been") {
-            possible_lemma = "be";
-        } else if (word == "have" || word == "has" || word == "had") {
-            possible_lemma = "have";
-        } else if (word == "do" || word == "does" || word == "did" || word == "done") {
-            possible_lemma = "do";
-        } else if (word == "say" || word == "says" || word == "said" || word == "saying") {
-            possible_lemma = "say";
-        } else if (word == "goes" || word == "go" || word == "went" || word == "going" || word == "gone") {
-            possible_lemma = "go";
-        } else if (word == "get" || word == "gets" || word == "got" || word == "gotten" || word == "getting") {
-            possible_lemma = "get";
-        } else if (word == "make" || word == "makes" || word == "made" || word == "making") {
-            possible_lemma = "make";
-        } else if (word == "know" || word == "knows" || word == "knew" || word == "knowing" || word == "known") {
-            possible_lemma = "know";
-        } else if (word == "think" || word == "thinks" || word == "thought" || word == "thinking") {
-            possible_lemma = "think";
-        } else if (word == "take" || word == "takes" || word == "took" || word == "taken" || word == "taking") {
-            possible_lemma = "take";
-        } else if (word == "come" || word == "comes" || word == "came" || word == "coming") {
-            possible_lemma = "come";
-        }  else if (word == "find" || word == "finds" || word == "found" || word == "finding") {
-            possible_lemma = "find";
-        } else if (word == "give" || word == "gives" || word == "gave" || word == "given" || word == "giving") {
-            possible_lemma = "give";
-        } else if (word == "tell" || word == "tells" || word == "told" || word == "telling") {
-            possible_lemma = "tell";
-        } else if (word == "become" || word == "becomes" || word == "became" || word == "becoming") {
-            possible_lemma = "become";
-        } else if (word == "see" || word == "sees" || word == "saw" || word == "seen" || word == "seeing") {
-            possible_lemma = "see";
-        } else if (word == "show" || word == "shows" || word == "showed" || word == "shown" || word == "showing") {
-            possible_lemma = "show";
-        } else if (word == "leave" || word == "leaves" || word == "left" || word == "leaving") {
-            possible_lemma = "leave";
-        } else if (word == "bring" || word == "brings" || word == "brought" || word == "bringing") {
-            possible_lemma = "bring";
-        } else if (word == "keep" || word == "keeps" || word == "keft" || word == "keeping") {
-            possible_lemma = "keep";
-        } else if (word == "write" || word == "writes" || word == "written" || word == "wrote" || word == "writing") {
-            possible_lemma = "write";
-        } else if (word == "stand" || word == "stands" || word == "stood" || word == "standing") {
-            possible_lemma = "stand";
-        } else if (word == "understand" || word == "understands" || word == "understood" || word == "understanding") {
-            possible_lemma = "understand";
-        } else if (word == "speak" || word == "speaks" || word == "spoke" || word == "speaking" || word == "spoken") {
-            possible_lemma = "speak";
-        } else if (word == "buy" || word == "buys" || word == "bought" || word == "buying") {
-            possible_lemma = "buy";
-        } else if (word == "choose" || word == "chooses" || word == "chose" || word == "choosing" || word == "chosen") {
-            possible_lemma = "choose";
+        function irreg(word) {
+            for(let i = 0; i < irregular_verbs.length; i++) {
+                if (word == irregular_verbs[i].lemma || word == irregular_verbs[i].subject || word == irregular_verbs[i].past || word == irregular_verbs[i].participle || word == irregular_verbs[i].continuous) {
+                    possible_lemma = irregular_verbs[i].lemma;
+                };
+            
+        }
+        return possible_lemma
+    }
+        if (!irreg(word) == ""){
+            possible_lemma = irreg(word);
+        } else if (word == "be" || word == "is" || word == "are" || word == "am" || word == "was" || word == "were" || word == "being" || word == "been") {
+                possible_lemma = "be";
         } 
         //lemmatize words with various common endings
           else if (word.endsWith('es')) {
@@ -263,7 +231,8 @@ function Check() {
         if (!diff_words.includes(possible_lemma)){
             diff_words.push(possible_lemma);
         }
-    });
+});
+
     //process scores
     var ndw = diff_words.length;
     var cttr = 0;
