@@ -1,59 +1,151 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <link href="paragraph.css" rel="stylesheet" type="text/css">
+        <!--Calls w3.css which currenty is stored in the same folder; can be replaced with othe css or your favorite framework-->
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
     <body>
+    <!--Requires dumbNLP.js, but this can be replaced with other NLP or LLM models or interpreters-->
+    <script src="dumbNLP.js"></script>
+    <!--Calls paragraph.js which currenty is stored in the same folder-->
     <script src="paragraph.js"></script>
     
-    <div class="headers">
-        <h1>Pathways to Academic English Practice</h1>
-        <br>
-        <h1>Practice Paragraph Writing</h1>
+    <div class="w3-container w3-deep-orange w3-center">
+        <h1>Paragraph Writing Practice</h1>
+        <h3>Select either free or timed practice.</h3>
+    <br>
     </div>
-    <div class="main_stuff">
-        <label for="text_input" id="main_label">Write or copy-and-paste your paragraph below to get feedback:</label>
-        <br>
-        <textarea id="text_input" rows="30" cols="80" placeholder="Enter text here"></textarea>
-        <br>
-        <br>
-        <button id="check" class="button_class" onclick="Check()">Get Feedback!</button>
-        <br>
-        <br>
+    <br>
+
+    <div class="w3-bar w3-center" id="buttonHolder2">
+        <button class="w3-button w3-teal w3-border w3-hover-blue-grey" id="get_feedback_button" onclick="OpenFB()">Free Practice</button>
+        <button class="w3-button w3-deep-purple w3-border w3-hover-purple" onclick="OpenTP()">Timed Practice</button>
     </div>
-    <div class="results_class" id="alltheresults" style="display:none">
-        <h2 style="text-align:center; color: crimson">Advice: </h2>
-        <h3 id="results" style="text-align:left; font-weight: bold">Basic Stats:</h3>
-        <br>
-        <br>
-        <h2 id="results_length" style="text-align:center">Length</h2>
-        <br>
-        <div id="length_graph" class="visual" style="width:80%; height:400px">
-            <canvas id="myLength" style="width:100%; max-width:700px; margin:auto"></canvas>
+
+<div class="w3-container w3-center" style="display:none" id="timed_practice">
+    <button id="start_button" class="w3-button w3-red" style="padding-right: 30px; padding-left: 30px;" onclick="StartTP()">Start!</button>
+    <br>
+    <br>
+
+    <p id="timer">15:00</p>
+    <div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom">
+        <div class="w3-container">
+            <span onclick="document.getElementById('id01').style.display='none'"class="w3-button w3-display-topright">&times;</span>
+            <header class="w3-container w3-teal"><h3>Change the Time</h3></header>
+            <br>
+            <label for="newtime">Minutes:</label>
+            <input type="text" id="newmins" style="width: 30px">
+            <br>
+            <label for="newtime">Seconds:</label>
+            <input type="text" id="newsecs" style="width: 30px">
+            <br>
+            <button class="w3-button w3-blue" onclick="TimerDoIt()">Set</button>
+            <span id="time_err" style="display: none; color: rgb(165, 1, 1); background-color: pink;"></span>
+            <br>
+            <br>
         </div>
-        <br>
-        <p id="length_advice"></p>
-        <br>
-        <h2 id="results_arg" style="text-align:center">Amount of Evidence:</h2>
-        <br>
-        <div id="arg_graph" class="visual" style="width:80%; height:400px">
-            <canvas id="myArg" style="width:100%; max-width:700px; margin:auto"></canvas>
         </div>
-        <br>
-        <p id="arg_advice"></p>
-        <br>
-        <h2 id="results_variety" style="text-align:center">Vocabulary Variety</h2>
-        <div class ="visual" id="graph_container" style="width:80%; height:400px">
-            <canvas id="myVariety" style="width:100%; max-width:700px; text-align: center; margin:auto"></canvas>
-        </div>
-        <p id="variety_advice"></p>
-        <br>
-        <h2 id="results_sentence" style="text-align:center">Average Sentence Length</h2>
-        <div class ="visual" id="graph_container" style="width:80%; height:400px">
-            <canvas id="mySentence" style="width:100%; max-width:700px; text-align: center; margin:auto"></canvas>
-        </div>
-        <p id="sentence_advice"></p>
-        <br>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    </body>
+    <button id="timerChanger" class="w3-button w3-blue" style="display: inline-block; margin-top: 5px; margin-bottom: 5px;" onclick="TimerSet()">Change Timer</button>
+    <br>
+
+    <p id="see_bun" style="display:none">Check feedback below:</p>
+    <textarea id="text_input2" rows="30" cols="80" placeholder="Push the red 'Start!' button and then begin writing." style="background-color: lightskyblue;" readonly></textarea>
+    <br>
+    <div class="w3-bar w3-center" id="new_button_holder" style="display: none;">
+        <button class="w3-button w3-red w3-border w3-hover-pale-red" id="reset_all" onclick="Reset()">Reset</button>
+        <button class="w3-button w3-deep-purple w3-border w3-hover-purple" id="revise" onclick="Revise()">Revise</button>
+    </div>
+    <div id="recheck_holder" class="w3-bar w3-center" style="display:none">
+        <button class="w3-button w3-blue w3-border w3-hover-light-blue" id="recheck" onclick="Check('text_input2', true)">Recheck and Compare</button>
+    </div>
+    <br>
+</div>
+<div class="w3-container w3-center" style="display:none" id="get_feedback">
+    <label for="text_input" id="main_label">Write or copy-and-paste your paragraph below, and then get feedback. </label>
+    <br>
+    <textarea id="text_input" rows="30" cols="80" placeholder="Begin typing here."></textarea>
+    <br>
+    <br>
+    <a href="#alltheresults"><button id="check" class="w3-button w3-green w3-border w3-hover-light-green" onclick="Check('text_input', false)">Get Feedback!</button></a>
+    <br>
+    <br>
+</div>
+<div class="results_class" id="alltheresults" style="display:none">
+    <h2 style="text-align:center; color: crimson">Advice: </h2>
+    <h3 id="results" style="text-align:left; font-weight: bold">Basic Stats:</h3>
+    <br>
+    <br>
+    <h2 id="results_length" style="text-align:center">Length</h2>
+    <br>
+    <div id="length_graph" class="visual" style="width:80%; height:400px">
+        <canvas id="myLength" style="width:100%; max-width:700px; margin:auto"></canvas>
+    </div>
+    <br>
+    <p id="length_advice"></p>
+    <br>
+    <h2 id="results_arg" style="text-align:center">Amount of Evidence</h2>
+    <br>
+    <div id="arg_graph" class="visual" style="width:80%; height:400px">
+        <canvas id="myArg" style="width:100%; max-width:700px; margin:auto"></canvas>
+    </div>
+    <br>
+    <p id="arg_advice"></p>
+    <br>
+    <h2 id="results_variety" style="text-align:center">Vocabulary Variety</h2>
+    <div class ="visual" id="graph_container_variety" style="width:80%; height:400px">
+        <canvas id="myVariety" style="width:100%; max-width:700px; text-align: center; margin:auto"></canvas>
+    </div>
+    <p id="variety_advice"></p>
+    <br>
+    <h2 id="results_sentence" style="text-align:center">Average Sentence Length</h2>
+    <div class ="visual" id="graph_container_sentence" style="width:80%; height:400px">
+        <canvas id="mySentence" style="width:100%; max-width:700px; text-align: center; margin:auto"></canvas>
+    </div>
+    <p id="sentence_advice"></p>
+    <br>
+</div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+</body>
+<style>
+.losGraph{
+        width:100%; max-width:700px; max-height: 400px; text-align: center; margin:auto;
+}
+#timer{
+    margin: auto;
+    border: outset 4px grey;
+    background-color: black;
+    font-size: large;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+    width: 200px;
+    padding: 10px;
+    vertical-align: middle;
+}
+.results_class {
+    border: solid 3px rgba(0, 0, 0, 0.884);
+    background-color: rgba(168, 190, 250, 0.884);
+    text-align: left;
+    width: 75%;
+    margin-top: 20px;
+    margin:auto;
+    padding: 10px;
+}
+
+#see_bun{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: medium;
+    color: rgb(220, 1, 1);
+    text-align: center;
+}
+.visual {
+    border: solid 2px;
+    border: black;
+    text-align: center;
+    margin: auto;
+}
+
+</style>
